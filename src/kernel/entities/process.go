@@ -10,6 +10,8 @@ type Process struct {
 	ExecutedThreads utils.Queue[Thread]
 	BlockedThreads  utils.Queue[Thread]
 	ExitedThreads   utils.Queue[Thread]
+	Instructions    utils.Queue[Instruction]
+	Mutex           utils.Queue[Mutex]
 }
 
 func (p *Process) CreateThread() {

@@ -1,4 +1,4 @@
-package controller
+package controllers
 
 import (
 	"cnmorocho/utnso-god/src/kernel/entities"

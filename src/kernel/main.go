@@ -3,7 +3,6 @@ package main
 import (
 	"cnmorocho/utnso-god/src/utils"
 	"fmt"
-	"net/http"
 	"os"
 )
 
@@ -35,24 +34,11 @@ func main() {
 
 	logger := utils.GetLogger()
 
-	// Validar argumentos source_file y size
 	if !argsAreValid(args) {
 		logger.Log("ERROR", "Error en los argumentos")
 		return
 	}
-	// Iniciar Comunicación con CPU y Memory
-	_, err = http.Get("http://localhost:8080/cpu/health")
-	if err != nil {
-		logger.Log("ERROR", "Error al conectar con CPU")
-		return
-	}
-	_, err = http.Get("http://localhost:8080/memory/health")
-	if err != nil {
-		logger.Log("ERROR", "Error al conectar con Memory")
-		return
-	}
-	// Iniciar Servidor
-	StartServer()
 
-	// Planificar procesos
+	StartServer()
+	
 }
