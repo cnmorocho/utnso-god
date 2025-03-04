@@ -1,6 +1,6 @@
 package entities
 
-import "cnmorocho/god/src/utils"
+import "cnmorocho/utnso-god/src/utils"
 
 type Process struct {
 	Id             int

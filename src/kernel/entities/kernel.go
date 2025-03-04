@@ -1,7 +1,7 @@
 package entities
 
 import (
-	"cnmorocho/god/src/utils"
+	"cnmorocho/utnso-god/src/utils"
 )
 
 type Kernel struct {
