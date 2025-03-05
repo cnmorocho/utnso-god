@@ -1,8 +1,9 @@
 package entities
 
+import "cnmorocho/utnso-god/src/utils"
+
 type Mutex struct {
-	Id         int
-	ResourceId int
-	State      int
-	ThreadId   int
+	IsLocked bool
+	Owner    *ThreadControlBlock
+	Queue    *utils.Queue[ThreadControlBlock]
 }

@@ -39,6 +39,8 @@ func main() {
 		return
 	}
 
+	codePath := os.Args[0]
+	processSize := os.Args[1]
+
 	StartServer()
-	
 }
