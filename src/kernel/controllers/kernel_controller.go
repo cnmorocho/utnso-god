@@ -1,14 +1,13 @@
 package controllers
 
 import (
-	"cnmorocho/utnso-god/src/kernel/entities"
+	"cnmorocho/utnso-god/src/kernel/services"
 	"net/http"
 )
 
 type KernelController struct {
-	Kernel *entities.Kernel
+	KernelService *services.KernelService
 }
 
 func (kc *KernelController) CreateProcess(res http.ResponseWriter, req *http.Request) {
-	kc.Kernel.CreateProcess()
 }

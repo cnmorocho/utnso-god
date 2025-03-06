@@ -3,33 +3,37 @@ package utils
 import "errors"
 
 type Queue[T any] struct {
-	storage []T
+	items []T
 }
 
-func (q *Queue[T]) Enqueue(element T) {
-	q.storage = append(q.storage, element)
+func NewQueue[T any]() *Queue[T] {
+	return &Queue[T]{items: []T{}}
+}
+
+func (q *Queue[T]) Enqueue(item T) {
+	q.items = append(q.items, item)
 }
 
 func (q *Queue[T]) Dequeue() (T, error) {
 	if q.IsEmpty() {
-		var nullElement T
-		return nullElement, errors.New("la cola no tiene elementos")
+		var nullItem T
+		return nullItem, errors.New("la cola no tiene elementos")
 	}
 
-	element := q.storage[0]
-	q.storage = q.storage[1:]
+	item := q.items[0]
+	q.items = q.items[1:]
 
-	return element, nil
+	return item, nil
 }
 
 func (q *Queue[T]) GetFirstElement() (T, error) {
 	if q.IsEmpty() {
-		var nullElement T
-		return nullElement, errors.New("la cola no tiene elementos")
+		var nullItem T
+		return nullItem, errors.New("la cola no tiene elementos")
 	}
-	return q.storage[0], nil
+	return q.items[0], nil
 }
 
 func (q *Queue[T]) IsEmpty() bool {
-	return len(q.storage) == 0
+	return len(q.items) == 0
 }

@@ -9,8 +9,13 @@ import (
 )
 
 type Kernel struct {
-	CodePath  string
 	Scheduler *Scheduler
+}
+
+func GetKernelInstance(codePath string) *Kernel {
+	return &Kernel{
+		Scheduler: &Scheduler{},
+	}
 }
 
 func (k *Kernel) DecodeProgram(codePath string) (utils.Queue[Instruction], error) {
