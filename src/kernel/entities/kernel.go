@@ -18,7 +18,7 @@ func GetKernelInstance(codePath string) *Kernel {
 	}
 }
 
-func (k *Kernel) DecodeProgram(codePath string) (utils.Queue[Instruction], error) {
+func DecodeProgram(codePath string) (utils.Queue[Instruction], error) {
 	file, err := os.Open(codePath)
 	if err != nil {
 		return utils.Queue[Instruction]{}, fmt.Errorf("error al abrir el archivo: %w", err)
@@ -38,8 +38,9 @@ func (k *Kernel) DecodeProgram(codePath string) (utils.Queue[Instruction], error
 		arguments := []string{}
 
 		if len(parts) > 1 {
-			for _, arg := range strings.Split(parts[1], ",") {
-				arguments = append(arguments, strings.TrimSpace(arg))
+			arguments = strings.Split(strings.Join(parts[1:], ""), ",")
+			for i := range arguments {
+				arguments[i] = strings.TrimSpace(arguments[i])
 			}
 		}
 

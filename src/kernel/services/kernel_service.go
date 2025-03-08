@@ -2,7 +2,6 @@ package services
 
 import (
 	"cnmorocho/utnso-god/src/kernel/entities"
-	"cnmorocho/utnso-god/src/utils"
 )
 
 type KernelService struct {
@@ -25,8 +24,4 @@ func (ks *KernelService) CreateProcess(process *entities.ProcessControlBlock) {
 		newThread := entities.NewThread(0)
 		ks.Kernel.Scheduler.NewThread(newThread)
 	}
-}
-
-func (ks *KernelService) DecodeProgram(codePath string) (utils.Queue[entities.Instruction], error) {
-	return ks.Kernel.DecodeProgram(codePath)
 }
