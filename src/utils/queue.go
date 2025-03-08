@@ -3,15 +3,15 @@ package utils
 import "errors"
 
 type Queue[T any] struct {
-	items []T
+	Items []T
 }
 
 func NewQueue[T any]() *Queue[T] {
-	return &Queue[T]{items: []T{}}
+	return &Queue[T]{Items: []T{}}
 }
 
 func (q *Queue[T]) Enqueue(item T) {
-	q.items = append(q.items, item)
+	q.Items = append(q.Items, item)
 }
 
 func (q *Queue[T]) Dequeue() (T, error) {
@@ -20,8 +20,8 @@ func (q *Queue[T]) Dequeue() (T, error) {
 		return nullItem, errors.New("la cola no tiene elementos")
 	}
 
-	item := q.items[0]
-	q.items = q.items[1:]
+	item := q.Items[0]
+	q.Items = q.Items[1:]
 
 	return item, nil
 }
@@ -31,9 +31,9 @@ func (q *Queue[T]) GetFirstElement() (T, error) {
 		var nullItem T
 		return nullItem, errors.New("la cola no tiene elementos")
 	}
-	return q.items[0], nil
+	return q.Items[0], nil
 }
 
 func (q *Queue[T]) IsEmpty() bool {
-	return len(q.items) == 0
+	return len(q.Items) == 0
 }
