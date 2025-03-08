@@ -4,6 +4,7 @@ import (
 	"cnmorocho/utnso-god/src/kernel/entities"
 	"cnmorocho/utnso-god/src/kernel/services"
 	"cnmorocho/utnso-god/src/utils"
+	"fmt"
 	"log/slog"
 	"os"
 	"strconv"
@@ -39,12 +40,12 @@ func validateArguments(args []string) bool {
 	}
 
 	if args[0] == "" || args[1] == "" {
-		slog.Error("se deben ingresar argumentos")
+		slog.Error("no se ingresaron argumentos")
 		return false
 	}
 
 	if _, err := os.Stat(args[0]); os.IsNotExist(err) {
-		slog.Error("se deben ingresar argumentos")
+		slog.Error(fmt.Sprintf("no se encontro el archivo %s", args[0]))
 		return false
 	}
 

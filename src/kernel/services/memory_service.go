@@ -36,7 +36,7 @@ func (ms *MemoryService) CreateProcess(req RequestCreateProcessDTO) (ResponseCre
 	}
 	defer res.Body.Close()
 
-	body, _ := io.ReadAll(res.Body)
+	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		return ResponseCreateProcessDTO{}, fmt.Errorf("error al intentar crear proceso en memoria: %v", err)
 	}
