@@ -1,35 +1,18 @@
 package utils
 
 import (
-	"fmt"
-	"log"
+	"log/slog"
 	"os"
 )
 
-type Logger struct {
-	logFile *os.File
-}
+var Logger *slog.Logger
 
-var globalLogger *Logger
-
-func NewLogger(filename string) error {
-	file, err := os.OpenFile(filename, os.O_CREATE|os.O_WRONLY|os.O_APPEND, os.ModePerm)
+func InitLogger(logPath string) {
+	file, err := os.OpenFile(logPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
-		fmt.Println("No se pudo abrir archivo", err)
-		return err
+		panic("No se pudo abrir el archivo del log")
 	}
-	log.SetOutput(file)
-	globalLogger = &Logger{logFile: file}
-	return nil
-}
-
-func (l *Logger) Log(level string, message string) {
-	l.logFile.WriteString(fmt.Sprintf("[%s] %s\n", level, message))
-}
-
-func GetLogger() *Logger {
-	if globalLogger == nil {
-		fmt.Println("No se ha iniciado el logger")
-	}
-	return globalLogger
+	fileHandler := slog.NewTextHandler(file, nil)
+	logger := slog.New(fileHandler)
+	slog.SetDefault(logger)
 }
