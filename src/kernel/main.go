@@ -4,7 +4,7 @@ import (
 	"cnmorocho/utnso-god/src/kernel/entities"
 	"cnmorocho/utnso-god/src/kernel/services"
 	"cnmorocho/utnso-god/src/utils"
-	"fmt"
+	"log/slog"
 	"os"
 	"strconv"
 )
@@ -21,7 +21,7 @@ func GetKernelInstance() *entities.Kernel {
 }
 
 func InitializeFirstProcess(kernel *entities.Kernel, codePath string, processSize int) {
-	intructions, _ := kernel.DecodeProgram(codePath)
+	intructions, _ := entities.DecodeProgram(codePath)
 	newProcess := entities.ProcessControlBlock{
 		ProcessId:    0,
 		Size:         processSize,
@@ -33,16 +33,24 @@ func InitializeFirstProcess(kernel *entities.Kernel, codePath string, processSiz
 	kernelService.CreateProcess(&newProcess)
 }
 
-func argsAreValid(args []string) bool {
+func validateArguments(args []string) bool {
 	if len(args) != 2 {
 		return false
 	}
 
 	if args[0] == "" || args[1] == "" {
+		slog.Error("se deben ingresar argumentos")
 		return false
 	}
 
 	if _, err := os.Stat(args[0]); os.IsNotExist(err) {
+		slog.Error("se deben ingresar argumentos")
+		return false
+	}
+
+	_, err := strconv.Atoi(args[1])
+	if err != nil {
+		slog.Error("el tamaño del proceso no es un número válido")
 		return false
 	}
 
@@ -52,27 +60,11 @@ func argsAreValid(args []string) bool {
 func main() {
 	args := os.Args[1:]
 
-	err := utils.NewLogger("kernel.log")
-
-	if err != nil {
-		fmt.Println("Error al iniciar logs")
-		return
-	}
-
-	logger := utils.GetLogger()
-
-	if !argsAreValid(args) {
-		logger.Log("ERROR", "Error en los argumentos")
-		return
-	}
+	utils.InitLogger("kernel.log")
+	validateArguments(args)
 
 	codePath := args[0]
 	processSize, _ := strconv.Atoi(args[1])
-
-	if err != nil {
-		logger.Log("ERROR", "El tamaño del proceso no es un número válido")
-		return
-	}
 
 	kernel := GetKernelInstance()
 	InitializeFirstProcess(kernel, codePath, processSize)
