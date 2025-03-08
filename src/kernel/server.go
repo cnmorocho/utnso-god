@@ -1,12 +1,16 @@
 package main
 
-import "net/http"
+import (
+	"fmt"
+	"log/slog"
+	"net/http"
+)
 
 func StartServer() {
 	router := http.NewServeMux()
+	port := ":8080"
 
-	http.Handle("/kernel", router)
 	SetupRoutes(router)
-	
-	http.ListenAndServe(":8080", router)
+	slog.Info(fmt.Sprintf("Servidor de kernel iniciado y escuchando en el puerto %s", port))
+	http.ListenAndServe(port, router)
 }

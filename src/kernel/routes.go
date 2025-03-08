@@ -9,6 +9,6 @@ func SetupRoutes(router *http.ServeMux) {
 	healthController := controllers.HealthController{}
 	kernelController := controllers.KernelController{}
 
-	router.HandleFunc("GET /health", healthController.HealthCheck)
-	router.HandleFunc("POST /process/create", kernelController.CreateProcess)
+	router.HandleFunc("GET /kernel/health", healthController.HealthCheck)
+	router.HandleFunc("POST /kernel/process/create", kernelController.CreateProcess)
 }
