@@ -30,20 +30,26 @@ func TestDecodeProgram(t *testing.T) {
 
 		codePath := tmpFile.Name()
 		got, err := DecodeProgram(codePath)
-		want := utils.Queue[Instruction]{Items: []Instruction{{Operator: "mov", Arguments: []string{"bx", "ax"}}, {Operator: "add", Arguments: []string{"ax", "cx"}}}}
+		firstInstruction := Instruction{Operator: "mov", Arguments: []string{"bx", "ax"}}
+		secondInstruction := Instruction{Operator: "add", Arguments: []string{"ax", "cx"}}
+		expectedQueue := utils.NewQueue[Instruction]()
+		expectedQueue.Enqueue(firstInstruction)
+		expectedQueue.Enqueue(secondInstruction)
 
-		if err != nil || !reflect.DeepEqual(got, want) {
-			t.Errorf("got %v, want %v, err %v", got, want, err)
+		if err != nil || !reflect.DeepEqual(got, expectedQueue) {
+			t.Errorf("got %v, want %v, err %v", got, expectedQueue, err)
 		}
 	})
 
 	t.Run("Dado una ruta de archivo, cuando el archivo no existe, entonces devuelve Queue[Instruction] vacio", func(t *testing.T) {
 		codePath := "noexiste.txt"
 		got, err := DecodeProgram(codePath)
-		want := utils.Queue[Instruction]{Items: []Instruction{{Operator: "mov", Arguments: []string{"bx", "ax"}}, {Operator: "add", Arguments: []string{"ax", "cx"}}}}
+		firstInstruction := Instruction{Operator: "mov", Arguments: []string{"bx", "ax"}}
+		expectedQueue := utils.NewQueue[Instruction]()
+		expectedQueue.Enqueue(firstInstruction)
 
 		if err == nil {
-			t.Errorf("got %v, want %v, err %v", got, want, err)
+			t.Errorf("got %v, want %v, err %v", got, expectedQueue, err)
 		}
 	})
 }
