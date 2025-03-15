@@ -1,6 +1,7 @@
 package main
 
 import (
+	"cnmorocho/utnso-god/src/kernel/dtos"
 	"cnmorocho/utnso-god/src/kernel/entities"
 	"cnmorocho/utnso-god/src/kernel/services"
 	"cnmorocho/utnso-god/src/utils"
@@ -21,17 +22,11 @@ func GetKernelInstance() *entities.Kernel {
 	return kernelInstance
 }
 
-func InitializeFirstProcess(kernel *entities.Kernel, codePath string, processSize int) {
-	intructions, _ := entities.DecodeProgram(codePath)
-	newProcess := entities.ProcessControlBlock{
-		ProcessId:    0,
-		Size:         processSize,
-		Instructions: intructions,
-		Mutex:        entities.Mutex{},
-	}
+func InitializeFirstProcess(firstProcess dtos.CreateProcessRequestDTO) {
+	kernel := GetKernelInstance()
 	memoryService := services.NewMemoryService()
 	kernelService := services.NewKernelService(kernel, memoryService)
-	kernelService.CreateProcess(&newProcess)
+	kernelService.CreateProcess(firstProcess)
 }
 
 func validateArguments(args []string) bool {
@@ -67,8 +62,6 @@ func main() {
 	codePath := args[0]
 	processSize, _ := strconv.Atoi(args[1])
 
-	kernel := GetKernelInstance()
-	InitializeFirstProcess(kernel, codePath, processSize)
-
+	InitializeFirstProcess(dtos.CreateProcessRequestDTO{FilePath: codePath, ProcessSize: processSize, ThreadPriority: 0})
 	StartServer()
 }
